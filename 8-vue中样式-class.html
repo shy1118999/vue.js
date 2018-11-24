@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title></title>
+        <!-- 引入vue.js -->
+        <script src='https://cdn.jsdelivr.net/npm/vue/dist/vue.js'></script>
+        <style>
+            .red{
+                color:red;
+            }
+            .thin{
+                font-weight: 200;
+            }
+            .italic{
+                font-style: italic;
+            }
+            .active{
+                letter-spacing: 0.5em;
+            }
+        </style>
+    </head>
+    <body>
+        <div id='app'>
+            <!-- 传统写法 -->
+            <h1 class="red thin">这是第一个h1标签</h1>
+            <!-- 第一种使用方式，直接传递一个数组 -->
+            <h1 :class="['red','italic']">这是第二个h1标签</h1>
+            <!-- 在这里面可以使用三元表达式 -->
+            <h1 :class="['red','italic',flag?'active':'']">这是第三个h1标签</h1>
+            <!-- 简化写法 在数组中使用对象来代替三元表达式-->
+            <h1 :class="['red','italic',{'active':flag}]">这是第四个h1标签</h1>
+            <!-- 直接使用对象 -->
+            <h1 :class="{red:true,italic:false,thin:true,active:flag}">这是第四个h1标签</h1>
+        </div>
+    
+    </body>
+    <script>
+        // 实例化vue对象
+        let vm = new Vue({
+            // 绑定对象
+            el:'#app',
+            data:{
+                flag:true
+            },
+            methods:{
+                
+            }
+        })
+    </script>
+</html>

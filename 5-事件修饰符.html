@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<!-- 
+    事件修饰符
+    .stop:阻止冒泡
+    .prevent:阻止默认事件
+    .capture:添加事件侦听器时使用事件捕获模式
+    .self:只当事情在该元素本身（比如不是子元素）触发时触发回调
+    .once:时间只能触发一次
+ -->
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title></title>
+        <!-- 引入vue.js -->
+        <script src='https://cdn.jsdelivr.net/npm/vue/dist/vue.js'></script>
+        <style>
+            .inner{
+                width: 100%;
+                height: 150px;
+                background: lawngreen;
+            }
+        </style>
+    </head>
+    <body>
+        <div id='app'>
+            <h2>原来的（有冒泡）</h2>
+            <div class="inner" @click="div1Handler">
+                <input type="button" value="点我" @click="btnHandler">
+            </div>
+
+            <h2>.stop阻止冒泡</h2>
+            <div class="inner" @click="div1Handler">
+                <!-- 使用.stop阻止冒泡 -->
+                <input type="button" value="点我" @click.stop="btnHandler">
+            </div>
+
+            <h2>.prevent阻止默认行为</h2>
+            <a href="http://baidu.com" @click.prevent="linkClick">百度一下</a>
+
+            <h2>.capture:添加事件侦听器时使用事件捕获模式</h2>
+            <!-- 先外层后内层 -->
+            <div class="inner" @click.capture="div1Handler">
+                <input type="button" value="点我" @click="btnHandler">
+            </div>
+
+            <h2>.self:只当事情在该元素本身（比如不是子元素）触发时触发回调</h2>
+            <div class="inner" @click.self="div1Handler">
+                <input type="button" value="点我" @click="btnHandler">
+            </div>
+
+            <h2>.once:时间只能触发一次</h2>
+            <div class="inner" @click.once="div1Handler">
+                <input type="button" value="点我" @click="btnHandler">
+            </div>
+            <a href="http://baidu.com" @click.prevent.once="linkClick">百度一下</a>
+
+        </div>
+    </body>
+    <script>
+        // 实例化vue对象
+        let vm = new Vue({
+            // 绑定对象
+            el:'#app',
+            data:{
+                
+            },
+            methods:{
+                div1Handler(){
+                    console.log("这是触发了div1的click事件")
+                },
+                btnHandler(){
+                    console.log("这是触发了btn的click事件")
+                },
+                linkClick(){
+                    console.log("点击了百度一下")
+                }
+            }
+        })
+    </script>
+</html>

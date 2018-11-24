@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<!-- 
+
+ -->
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title></title>
+        <!-- 引入vue.js -->
+        <script src='https://cdn.jsdelivr.net/npm/vue/dist/vue.js'></script>
+
+        <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <!-- 引入vue-resource -->
+        <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script> 
+
+    </head>
+    <body>
+        <div id='app'>
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">添加品牌</h3>
+                </div>
+                <div class="panel-body form-inline">
+                    <label>Name:
+                        <input type="text" class="form-control" v-model="name" @keyup.enter="add">
+                    </label>
+                    <input type="button" value="添加" class="btn btn-primary" @click="add">
+                </div>
+            </div>
+
+
+            <!-- 表格 -->
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Ctime</th>
+                        <th>Operation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="item in list" :key="item.id">
+                        <td>{{item.id}}</td>
+                        <td>{{item.name}}</td>
+                        <td>{{item.ctime | dataFormat}}</td>
+                        <td>
+                            <a href="" @click.prevent="del(item.id)">删除</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </body>
+    <script>
+
+        // 定义全局过滤器
+        // Vue.filter('过滤器名称',function(){})
+        Vue.filter('dataFormat',function(datastr,pattern=''){
+            let data = new Date(datastr)
+            let year = data.getFullYear()
+            let month = data.getMonth() + 1;
+            let day = data.getDate()
+            let hour = data.getHours()
+            let minute = data.getMinutes()
+            let second = data.getSeconds()
+            // return year + '-' + month + '-' + day
+            if(pattern.toLowerCase() === 'yyyy-mm-dd'){
+                return `${year}-${month}-${day}`
+            }else{
+                return `${year}-${month}-${day} ${hour}:${minute}:${second}`
+            }
+            
+        })
+        
+        Vue.http.options.root = "http://mycode.com/"
+        Vue.http.options.emulateJSON = true
+        // 实例化vue对象
+        let vm = new Vue({
+            // 绑定对象
+            el:'#app',
+            data:{
+                name:'',
+                list:[
+                    {id:1,name:'奔驰',ctime:new Date()},
+                    {id:2,name:'宝马',ctime:new Date()}
+                ]
+            },
+            methods:{
+                add(){ //添加方法
+                    console.log("添加方法")
+                    if(this.name == ''){
+                        alert("请填写name")
+                        return
+                    }
+                    this.$http.post("vuejs/phpcode/post.php",{name:this.name}).then(res=>{
+                        if(res.status !== 0){
+                            this.getAllList()
+                        }else{
+                            alert("出错了")
+                        }
+                    })
+
+                    this.name = ''
+                },
+                getAllList(){
+                    
+                    this.$http.get("vuejs/phpcode/get.php").then(res=>{
+                        console.log(res)
+                        if(res.status !== 0){
+                            this.list = res.body.message
+                        }else{
+                            alert("获取数据失败!")
+                        }
+                    })
+                },
+                del(id){
+                    this.$http.get("vuejs/phpcode/del.php?id="+id).then(res=>{
+                        console.log(res)
+                        if(res.status !== 0){
+                            this.getAllList()
+                        }else{
+                            alert("失败了!")
+                        }
+                    })
+                },
+
+            },
+            created() {
+                this.getAllList()
+            },
+           
+        })
+    </script>
+</html>

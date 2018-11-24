@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title></title>
+        <!-- 引入vue.js -->
+        <script src='https://cdn.jsdelivr.net/npm/vue/dist/vue.js'></script>
+    </head>
+    <body>
+        <div id='app'>
+            <!-- 对象就是无序键值对的集合 -->
+            <h1 :style="{color:'red','font-weight':200}">这是第一个h1标签</h1>
+
+            <h1 :style="styleObj1">这是第二个h1标签</h1>
+
+            <h1 :style="[styleObj1,styleObj2]">这是第三个h1标签</h1>
+
+        </div>
+    
+    </body>
+    <script>
+        // 实例化vue对象
+        let vm = new Vue({
+            // 绑定对象
+            el:'#app',
+            data:{
+                styleObj1:{color:'red','font-weight':200},
+                styleObj2:{'font-style':'italic'}
+            },
+            methods:{
+                
+            }
+        })
+    </script>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<!-- 
+    v-if的特点：每次都会重新删除或创建元素 
+    v-show的特点：每次不会进行DOM的删除和创建，只是切换元素display:none样式
+    v-if有较高的切换性能消耗
+    v-show有较高的初始渲染消耗
+    如果元素涉及到频繁切换，最好不用v-if
+    如果元素可能永远不会被显示出来则推荐使用v-if
+ -->
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title></title>
+        <!-- 引入vue.js -->
+        <script src='https://cdn.jsdelivr.net/npm/vue/dist/vue.js'></script>
+    </head>
+    <body>
+        <div id='app'>
+            <input type="button" @click="flag=!flag" value="toggle">
+            <!-- v-if的特点：每次都会重新删除或创建元素 -->
+            <!-- v-show的特点：每次不会进行DOM的删除和创建，只是切换元素display:none样式 -->
+            <!-- v-if有较高的切换性能消耗 -->
+            <!-- v-show有较高的初始渲染消耗 -->
+            <!-- 如果元素涉及到频繁切换，最好不用v-if -->
+            <!-- 如果元素可能永远不会被显示出来则推荐使用v-if -->
+            <h3 v-if="flag">这是用v-if控制的</h3>
+            <h3 v-show="flag">这是用v-show控制的</h3>
+        </div>
+    
+    </body>
+    <script>
+        // 实例化vue对象
+        let vm = new Vue({
+            // 绑定对象
+            el:'#app',
+            data:{
+                flag:true
+            },
+            methods:{
+                
+            }
+        })
+    </script>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title></title>
+        <!-- 引入vue.js -->
+        <script src='https://cdn.jsdelivr.net/npm/vue/dist/vue.js'></script>
+    </head>
+    <body>
+        <div id='app'>
+            
+        </div>
+    
+    </body>
+    <script>
+        // 实例化vue对象
+        let vm = new Vue({
+            // 绑定对象
+            el:'#app',
+            data:{
+                msg:"这是我的消息"
+            },
+            methods:{
+                show(){
+                    console.log("执行了show方法")
+                }
+            },
+            beforeCreate(){ //这是第一个声明周期函数，表示是例外完全被创建出来之前，会执行它。。。
+                // data和methods还未初始化
+                console.log("beforeCreated")
+                console.log(this.msg) //undefined
+                // this.show() 报错，未定义
+            },
+            created(){ //这是遇到的第二个生命周期函数
+                // data和methods已经初始化好
+                console.log("created")
+                console.log(this.msg)
+                this.show()
+            },
+            beforeMount(){ //这是遇到的第三个声明周期函数，表示 模板已经在内存中编辑完成了，但是尚未把模板渲染到 页面中
+                console.log("beforeMount")
+                console.log(this.msg)
+                this.show()
+            },
+            mounted(){  //这是遇到的第四个生命周期函数，表示，内存中的模板，已经真实挂载到了页面中，用户可以看到渲染好的页面了
+                //mounted是实例创建期间最后一个生命周期函数，当执行完mounted就表示，实例已经完全被创建好了
+            },
+            updated(){
+                console.log("updated")
+                console.log(this.msg)
+                this.show()
+            },
+            beforeDestroy(){},
+            destroy(){},
+        })
+    </script>
+</html>

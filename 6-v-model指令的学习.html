@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<!--
+    v-model实现数据的双向绑定
+    v-model只能用在表单元素中
+ -->
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title></title>
+        <!-- 引入vue.js -->
+        <script src='https://cdn.jsdelivr.net/npm/vue/dist/vue.js'></script>
+    </head>
+    <body>
+        <div id='app'>
+            <h4>{{msg}}</h4>
+            <!-- v-bind只能实现数据的单向绑定 -->
+            <input type="text" :value="msg" style="width:100%">
+            <!-- v-model实现数据的双向绑定 -->
+            <input type="text" v-model="msg" style="width:100%">
+        </div>
+    
+    </body>
+    <script>
+        // 实例化vue对象
+        let vm = new Vue({
+            // 绑定对象
+            el:'#app',
+            data:{
+                msg:'闫少航http://shaohang.xin'
+            },
+            methods:{
+                
+            }
+        })
+    </script>
+</html>

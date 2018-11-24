@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title></title>
+        <!-- 引入vue.js -->
+        <script src='https://cdn.jsdelivr.net/npm/vue/dist/vue.js'></script>
+    </head>
+    <body>
+        <div id='app'>
+            <input type="text" v-model="n1">
+            <select v-model="opt">
+                <option value="+">+</option>
+                <option value="-">-</option>
+                <option value="*">*</option>
+                <option value="/">/</option>
+            </select>
+            <input type="text" v-model="n2">
+            <input type="button" value="=" @click="calc">
+            <input type="text" v-model="res">
+        </div>
+    
+    </body>
+    <script>
+        // 实例化vue对象
+        let vm = new Vue({
+            // 绑定对象
+            el:'#app',
+            data:{
+                n1:0,
+                n2:0,
+                res:0,
+                opt:'+'
+            },
+            methods:{
+                // 计算
+                calc(){
+                    // switch(this.opt){
+                    //     case '+':
+                    //         this.res = Number(this.n1) + Number(this.n2)
+                    //         break
+                    //     case '-':
+                    //         this.res = Number(this.n1) - Number(this.n2)
+                    //         break
+                    //     case '*':
+                    //         this.res = Number(this.n1) * Number(this.n2)
+                    //         break
+                    //     case '/':
+                    //         this.res = Number(this.n1) / Number(this.n2)
+                    //         break
+                    // }
+
+                    // 投机取巧一下（正是开发尽量少用）
+                    this.res = eval('Number(this.n1)' + this.opt + 'Number(this.n2)' )
+                }
+            }
+        })
+    </script>
+</html>

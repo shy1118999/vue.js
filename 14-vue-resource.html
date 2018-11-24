@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title></title>
+        <!-- 引入vue.js -->
+        <script src='https://cdn.jsdelivr.net/npm/vue/dist/vue.js'></script>
+        <!-- 引入vue-resource -->
+        <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script> 
+    </head>
+    <body>
+        <div id='app'>
+            <input type="button" value="Get请求" @click="getInfo">
+            <input type="button" value="Post请求" @click="postInfo">
+            <input type="button" value="jsonp请求" @click="jsonpInfo">
+        </div>
+    
+    </body>
+    <script>
+        // 实例化vue对象
+        let vm = new Vue({
+            // 绑定对象
+            el:'#app',
+            data:{
+                
+            },
+            methods:{
+                // 官方：github地址：https://github.com/pagekit/vue-resource
+                getInfo(){
+                    console.log("发送get请求")
+                    this.$http.get('http://mycode.com/vuejs/phpcode/get.php').then(function(res){
+                        console.log(res.body)
+                    })
+                },
+                postInfo(){
+                    console.log("发送post请求")
+                    // 手动发起的Post 请求，默认没有表单格(application/x-www-form-urlencoded)，所以，有的服务器处理不了
+                    // 需要加上emulateJSON:true
+                    this.$http.post("http://mycode.com/vuejs/phpcode/post.php",{},{emulateJSON:true}).then(res=>{
+                        console.log(res)
+                    })
+                },
+                jsonpInfo(){
+                    console.log("发送jsonp请求")
+                    // 
+                    this.$http.jsonp("http://mycode.com/vuejs/phpcode/jsonp.php").then(res=>{
+                        console.log(res)
+                    })
+                }
+            }
+        })
+    </script>
+</html>

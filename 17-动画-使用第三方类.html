@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title></title>
+        <!-- 引入vue.js -->
+        <script src='https://cdn.jsdelivr.net/npm/vue/dist/vue.js'></script>
+        <link rel="stylesheet" href="./lib/animate.css">
+    </head>
+    <body>
+        <div id='app'>
+                <input type="button" value="toggle" @click="flag = !flag">
+                <!-- 使用 :duration="毫秒值" 设置进场和出场 时候的动画时长 -->
+                <!-- 使用 :duration="{enter:毫秒值,leave:毫秒值}" 分别设置进场和出场的动画时间值 -->
+                <transition enter-active-class="bounceIn" leave-active-class="bounceOut">
+                    <h3 v-if="flag"  class="animated">hello vue.js</h3>
+                </transition>
+        </div>
+    
+    </body>
+    <script>
+        // 实例化vue对象
+        let vm = new Vue({
+            // 绑定对象
+            el:'#app',
+            data:{
+                flag:false
+            },
+            methods:{
+                
+            }
+        })
+    </script>
+</html>

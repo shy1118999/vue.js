@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- 引入vue.js -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    
+</head>
+<body>
+    <div id="app">
+        <!-- v-bind:是vue中提供绑定属性的指令 -->
+        <input type="button" value="按钮" v-bind:title="mytitle" v-on:click="alert">
+        <!-- v-bind可以简写为一个冒号（:） -->
+        <input type="button" value="按钮" :title="mytitle" @click="alert">
+
+    </div>
+
+</body>
+
+<script>
+    // 实例化vue对象
+    let vm = new Vue({
+        // 绑定对象
+        el:'#app',
+        data:{
+            mytitle:'这是title'
+        },
+        // 方法
+        methods:{
+            // 自定义事件
+            alert:function(){
+                alert('hello shaohang');
+            }
+        }
+    })
+</script>
+
+</html>
+
+<!-- 1、如何定义一个基本的Vue代码结构 -->
+<!-- 2、插值表达式 和 x-text -->
+<!-- 3、v-cloak -->
+<!-- 4、v-html -->
+<!-- 5、v-bind Vue提供的属相绑定机制 缩写为: -->
+<!-- 6、v-on Vue提供的事件绑定机制 缩写为@ -->

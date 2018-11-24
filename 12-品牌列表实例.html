@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<!-- 
+    根据关键字实现数组的过滤
+    Vue中全局过滤器
+    定义格式化时间的全局过滤器
+    定义私有过滤器
+    字符串padStart方法的使用
+    默认按键修饰符
+        .enter .tab .delete .esc .space .up .down .left .right 以及按键码keyCode
+    自定义按键修饰符
+    自定义全局指令
+    定义私有指令
+    vue的生命周期
+        beforeCreate、created、beforeMount、mounted、updated、beforeDestroy、destroy
+ -->
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title></title>
+        <!-- 引入vue.js -->
+        <script src='https://cdn.jsdelivr.net/npm/vue/dist/vue.js'></script>
+
+        <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+
+    </head>
+    <body>
+        <div id='app'>
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">添加品牌</h3>
+                </div>
+                <div class="panel-body form-inline">
+                    <label>Id:
+                        <input type="text" class="form-control" v-model="id">
+                    </label>
+                    <label>Name:
+                        <input type="text" class="form-control" v-model="name" @keyup.enter="add" @keyup.f2="add">
+                    </label>
+                    <input type="button" value="添加" class="btn btn-primary" @click="add">
+                    <hr>
+                    <label>搜索名称关键字:
+                        <input type="text" class="form-control" v-focus v-color="'blue'" v-model="keywords">
+                    </label>
+                </div>
+            </div>
+
+
+            <!-- 表格 -->
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Ctime</th>
+                        <th>Operation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="item in search(keywords)" :key="item.id">
+                        <td>{{item.id}}</td>
+                        <td>{{item.name}}</td>
+                        <td>{{item.ctime | dataFormat}}</td>
+                        <td>
+                            <a href="" @click.prevent="del(item.id)">删除</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="app2">
+            <h2 v-color="'pink'" v-fontweight="'800'" v-fontsize="'50'">你好啊</h2>
+        </div>
+    </body>
+    <script>
+
+        // 定义全局过滤器
+        // Vue.filter('过滤器名称',function(){})
+        Vue.filter('dataFormat',function(datastr,pattern=''){
+            let data = new Date(datastr)
+            let year = data.getFullYear()
+            let month = data.getMonth() + 1;
+            let day = data.getDate()
+            let hour = data.getHours()
+            let minute = data.getMinutes()
+            let second = data.getSeconds()
+            // return year + '-' + month + '-' + day
+            if(pattern.toLowerCase() === 'yyyy-mm-dd'){
+                return `${year}-${month}-${day}`
+            }else{
+                return `${year}-${month}-${day} ${hour}:${minute}:${second}`
+            }
+            
+        })
+
+        // 自定义全局按键修饰符
+        // Vue.config.keyCodes.自定义名称 = keyCode码
+        Vue.config.keyCodes.f2 = 113
+
+
+        // 自定义全局指令
+        // 
+        Vue.directive('focus',{
+            bind:function(el){
+                // 在每个函数中，第一个参数永远是el，表示被绑定了指令的那个元素，这个el参数是一个原生的JS对象
+                // el.focus()  该操作不生效，时机不对
+            },  //每当指令绑定到元素上的时候，会立刻执行这个 bind 函数，智慧执行一次
+            inserted:function(el){
+                el.focus()
+            },  //inserted表示元素 插入到DOM中的时候，会执行 inserted 函数【触发一次】
+            updated:function(){},  //当VNode（组件）更新的时候，会执行 updated ，可能会触发多次
+        })
+        Vue.directive('color',{
+            bind:function(el,binding){
+                console.log(binding)
+                el.style.color = binding.value
+            },  //每当指令绑定到元素上的时候，会立刻执行这个 bind 函数，智慧执行一次
+        })
+
+        // 实例化vue对象
+        let vm = new Vue({
+            // 绑定对象
+            el:'#app',
+            data:{
+                id:'',
+                name:'',
+                keywords:'',
+                list:[
+                    {id:1,name:'奔驰',ctime:new Date()},
+                    {id:2,name:'宝马',ctime:new Date()}
+                ]
+            },
+            methods:{
+                add(){ //添加方法
+                    console.log("添加方法")
+                    // 判断有没有输入
+                    if(this.id=='' || this.name==''){
+                        alert("输入不完整")
+                        return
+                    }
+                    // 添加到list
+                    this.list.push({id:this.id,name:this.name,ctime:new Date()})
+                    // 恢复初始值
+                    this.id = ''
+                    this.name =''
+                },
+                del(id){
+                    console.log("删除方法")
+                    // console.log(id)
+                    // this.list.some((item,i)=>{
+                    //     if(item.id == id){
+                    //         this.list.splice(i,1)
+                    //         // 在数组的some方法中，如果return true就会立即停止后续循环
+                    //         return true
+                    //     }
+                    // })
+                    let index = this.list.findIndex(item=>{
+                        if(item.id == id){
+                            return true
+                        }
+                    })
+                    this.list.splice(index,1)
+                },
+                search(keywords){
+                    // let newList = []
+                    // this.list.forEach(item=>{
+                    //     if(item.name.indexOf(keywords) != -1){
+                    //         newList.push(item)
+                    //     }
+                    // })
+                    // return newList
+
+                     let newList = this.list.filter(item=>{
+                        // if(item.name.indexOf(keywords) != -1){}
+                        if(item.name.includes(keywords)){
+                            return true
+                        }
+                    })
+                    return newList
+                }
+            },
+            // 私有（局部）过滤器——过滤器有两个条件-【过滤器名称和处理函数】
+            // 过滤器调用的原则为就近原则
+            filters:{
+                // 
+                dataFormat:function(datastr,pattern=''){
+                    let data = new Date(datastr)
+                    let year = data.getFullYear()
+                    let month = (data.getMonth() + 1).toString().padStart(2,'0')
+                    let day = data.getDate().toString().padStart(2,'0')
+                    let hour = data.getHours().toString().padStart(2,'0')
+                    let minute = data.getMinutes().toString().padStart(2,'0')
+                    let second = data.getSeconds().toString().padStart(2,'0')
+                    // return year + '-' + month + '-' + day
+                    if(pattern.toLowerCase() === 'yyyy-mm-dd'){
+                        return `${year}-${month}-${day}`
+                    }else{
+                        return `${year}-${month}-${day} ${hour}:${minute}:${second}`
+                    }
+                }
+            }
+        })
+        let vm2 = new Vue({
+            el:'#app2',
+            data:{},
+            directives:{
+                // 设置字体加粗
+                'fontweight':{
+                    bind:function(el,binding){
+                        el.style.fontWeight = binding.value
+                    }
+                },
+                // 设置字体大小
+                'fontsize':function(el,binding){
+                    el.style.fontSize = binding.value +'px'
+                } 
+            }
+        })
+    </script>
+</html>
