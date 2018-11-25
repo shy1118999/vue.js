@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title></title>
+        <!-- 引入vue.js -->
+        <script src='https://cdn.jsdelivr.net/npm/vue/dist/vue.js'></script>
+    </head>
+    <body>
+        <div id='app'>
+            <login></login>
+            <login2></login2>
+        </div>
+        <div id="app2">
+            <!-- 这个不能正常使用，报错 -->
+            <login></login>
+            
+        </div>
+        <template id="tmp1">
+            <h1>私有的login2组件</h1>
+        </template>
+    </body>
+    <script>
+        // 实例化vue对象
+        let vm = new Vue({
+            // 绑定对象
+            el:'#app',
+            data:{
+                
+            },
+            methods:{
+                
+            },
+            components:{//定义实例内部私有组件
+                login:{
+                    template:"<h1>私有的login组件</h1>"
+                },
+                login2:{
+                    template:"#tmp1"
+                }
+            }
+        })
+        let vm2 = new Vue({
+            // 绑定对象
+            el:'#app2',
+            data:{
+                
+            },
+            methods:{
+                
+            }
+        })
+    </script>
+</html>

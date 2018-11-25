@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title></title>
+        <!-- 引入vue.js -->
+        <script src='https://cdn.jsdelivr.net/npm/vue/dist/vue.js'></script>
+    </head>
+    <body>
+        <div id='app'>
+            <!-- 使用v-if、v-else切换组件（只能两个之间切换） -->
+            <h2>使用v-if、v-else切换组件（只能两个之间切换）</h2>
+            <a href="" @click.prevent="flag=true">登录</a>
+            <a href="" @click.prevent="flag=false">注册</a>
+            <login v-if="flag"></login>
+            <register v-else="flag"></register>
+            <hr>
+            <h2>使用component元素切换组件</h2>
+            <a href="" @click.prevent="componentId='login'">登录</a>
+            <a href="" @click.prevent="componentId='register'">注册</a>
+            <!-- component是一个占位符，:is属性，可以用来指定要展示的组件名称 -->
+            <component :is="componentId"></component>
+        </div>
+    
+    </body>
+    <script>
+
+        Vue.component('login',{
+            template:'<h3>登录组件</h3>'
+        })
+        Vue.component('register',{
+            template:'<h3>注册组件</h3>'
+        })
+
+        // 实例化vue对象
+        let vm = new Vue({
+            // 绑定对象
+            el:'#app',
+            data:{
+                flag:true,
+                componentId:'login'
+            },
+            methods:{
+                
+            }
+        })
+    </script>
+</html>
+
+<!-- 当前学过的Vue标签 -->
+<!-- 
+    <component :is="componentId"></component>
+    <template></template>
+    <transition></transition>
+    <transition-group></transition-group> 
+-->

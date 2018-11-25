@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<!-- 
+    什么是组件？
+    组件的出现，就是为了拆分Vue实例的代码量，能够让我们以不同的组件，来划分不同的功能模块，将来我们需要什么样的功能，就可以去调用对应的组件即可。
+    >模块化：是将代码逻辑的角度进行划分的。方便代码分层开发，保证每次功能模块的职能单一。
+    >组件化：是从UI界面的角度进行划分的，前端的组件化，方便UI组件的重复调用。
+ -->
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title></title>
+        <!-- 引入vue.js -->
+        <script src='https://cdn.jsdelivr.net/npm/vue/dist/vue.js'></script>
+    </head>
+    <body>
+        <div id='app'>
+            <!-- 如果使用组件，直接，把组件的名称，以HTML标签的形式，引入到页面中，即可 -->
+            <!-- 定义的时候可以用驼峰法，但是调用时必须使用“-” -->
+            <my-com1></my-com1>
+            <mycom2></mycom2>
+            <mycom3></mycom3>
+            <mycom4></mycom4>
+        </div>
+        <!-- 在 被控制的 #app外面，使用template元素，定义组件的HTML结构 -->
+        <template id="tmp1">
+            <div>
+                <h3>这是通过template元素，在外部创建的组件</h3>
+                <p>好用，不错</p>
+            </div>
+        </template>
+    </body>
+    <script>
+        // 1.1、 使用Vue.extend 来创建全局的Vue组件
+        let com1 = Vue.extend({
+            // 通过temloate属性，指定了组件要展示的HTML结构
+            template:'<h3>这是用Vue.extend创建的组件</h3>'//内部必须只有一个根节点
+        })
+        // 1.2、使用Vue.component('组件的名称',创建出来的的组件模板对象)
+        // 定义的时候可以用驼峰法，但是调用时必须使用“-”
+        Vue.component('myCom1',com1)
+
+        // 1.3、合并写法
+        Vue.component('mycom2',Vue.extend({
+            // 通过temloate属性，指定了组件要展示的HTML结构
+            template:'<h3>这是用Vue.component两步合并创建的组件</h3>'//内部必须只有一个根节点
+        }))
+
+        // 2.1
+        Vue.component('mycom3',{
+            template:'<h3>这是用Vue.component一步创建的组件</h3>'//内部必须只有一个根节点
+        })
+        
+        // 3.1
+        Vue.component('mycom4',{
+            template:'#tmp1'
+        })
+        // 实例化vue对象
+        let vm = new Vue({
+            // 绑定对象
+            el:'#app',
+            data:{
+                
+            },
+            methods:{
+                
+            }
+        })
+    </script>
+</html>

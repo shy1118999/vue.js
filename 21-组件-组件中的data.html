@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title></title>
+        <!-- 引入vue.js -->
+        <script src='https://cdn.jsdelivr.net/npm/vue/dist/vue.js'></script>
+    </head>
+    <body>
+        <div id='app'>
+            <mycom1></mycom1>
+
+            <counter></counter>
+            <hr>
+            <counter></counter>
+            <hr>
+            <counter></counter>
+        </div>
+        <template id="counter">
+            <div>
+                <input type="button" value="+1" @click="increment">
+                <h3>{{count}}</h3>
+            </div>
+        </template>
+    </body>
+    <script>
+        // 1、组件可以有自己的 data 数据
+        // 2、组件的 data 和 实例的data 有一点不一样，实例中的data可以为一个对象，但是组件中的data必须是一个方法
+        // 3、组件中的data 除了必须为一个方法外，这个方法内部，还必须返回一个对象才行
+        Vue.component('mycom1',{
+            template:'<h1>这是全局组件.data:{{msg}}</h1>',
+            data:function(){
+                return {
+                    msg:'这是data里的信息'
+                }
+            }
+        })
+        let dataObj = { count:0 }
+        Vue.component('counter',{
+            template:'#counter',
+            data:function(){
+                // return dataObj
+                return { count:0 }
+            },
+            methods:{
+                increment(){
+                    this.count++
+                }
+            }
+        })
+
+
+        // 实例化vue对象
+        let vm = new Vue({
+            // 绑定对象
+            el:'#app',
+            data:{
+                
+            },
+            methods:{
+                
+            }
+        })
+    </script>
+</html>
