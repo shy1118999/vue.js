@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title></title>
+        <!-- 引入vue.js -->
+        <script src='https://cdn.jsdelivr.net/npm/vue/dist/vue.js'></script>
+        <style>
+            li{
+                border:1px dashed red;
+                margin:5px;
+                line-height: 35px;
+                padding-left:5px; 
+                width: 100%;
+            }
+            
+            .v-enter,
+            .v-leave-to{
+                
+                transform: translateY(100px);
+                opacity: 0;
+            }
+            .v-leave-active,
+            .v-enter-active{
+                transition: all 0.5s ease;
+            }
+            li:hover{
+                background: lightcoral;
+                transition: all 0.8s ease;
+            }
+            .v-move{
+                transition: all 0.6s ease;
+            }
+            .v-leave-active{
+                position: absolute;
+            }
+        </style>
+    </head>
+    <body>
+        <div id='app'>
+            <div>
+                <label>ID:
+                    <input type="text" v-model="id">
+                </label>
+                <label>Name:
+                    <input type="text" v-model="name">
+                </label>
+                <input type="button" value="添加" @click="add">
+            </div>
+            <p>点击删除</p>
+            <!-- <ul> -->
+                <!-- 在使用列表过渡的时候，如果需要过渡的元素，是通过 v-for 循环渲染出来的，
+                    不能使用transition包裹，需要使用transitionGroup -->
+                <!-- 给transition-group设置appear获得入场动画 -->
+                <!-- 给transition-group设置tag属性，指定transition-group渲染为什么样的元素，如果不指定，默认渲染为span元素 -->
+                <transition-group appear tag="ul">
+                    <li v-for="(item,i) in list" :key="item.id" @click="del(i)">
+                        {{item.id}}---{{item.name}}
+                    </li>
+                </transition-group>
+                
+            <!-- </ul> -->
+        </div>
+    
+    </body>
+    <script>
+        // 实例化vue对象
+        let vm = new Vue({
+            // 绑定对象
+            el:'#app',
+            data:{
+                list:[
+                    {id:1,name:'张三'},
+                    {id:2,name:'李四'},
+                    {id:3,name:'王五'},
+                    {id:4,name:'赵六'}
+                ],
+                id:'',
+                name:''
+            },
+            methods:{
+                add(){
+                    if(this.id == '' || this.name == ''){
+                        alert("不能为空")
+                        return
+                    }
+                    this.list.push({id:this.id,name:this.name})
+                    this.id = this.name = ''
+                },
+                del(i){
+                    this.list.splice(i,1)
+                }
+            }
+        })
+    </script>
+</html>
