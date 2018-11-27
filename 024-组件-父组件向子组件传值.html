@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title></title>
+        <!-- 引入vue.js -->
+        <script src='https://cdn.jsdelivr.net/npm/vue/dist/vue.js'></script>
+    </head>
+    <body>
+        <div id='app'>
+            <!-- 父组件，可以在引用子组件的时候，通过 属性绑定（v-bind）的形式，把 需要的传递给 子组件的数据，以属性绑定的形式，传递到子组件内部，供子组件使用 -->
+            <com1 v-bind:parentmsg="msg"></com1>
+        </div>
+    
+    </body>
+    <script>
+        // 实例化vue对象
+        const vm = new Vue({
+            // 绑定对象
+            el:'#app',
+            data:{
+                msg:"1213-父组件中的数据"
+            },
+            methods:{
+                
+            },
+            components:{
+                
+                com1:{
+                    data(){
+                        return {
+                            title:'子组件title'
+                        }
+                    },
+                    template:"<h1 @click='change'>这是子组件——{{parentmsg}}</h1>",
+                    // 把父组件传递过来的parentmsg属性，先在 props 数组中，定义一下，这样，才能使用这个数据
+                    props:['parentmsg'],
+                    methods:{
+                        change(){
+                            this.parentmsg="被修改了"
+                        }
+                    }
+                }
+            }
+            
+        })
+    </script>
+</html>

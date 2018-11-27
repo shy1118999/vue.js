@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title></title>
+        <!-- 引入vue.js -->
+        <script src='https://cdn.jsdelivr.net/npm/vue/dist/vue.js'></script>
+    </head>
+    <body>
+        <div id='app'>
+            <!-- <com2 v-on:func="show"></com2> -->
+            <com2 @show="show"></com2>
+            <!-- <con2 @func="show"></con2> -->
+        </div>
+        <template id="tmp2">
+            <div>
+                <h1>这是子组件</h1>
+                <p @click="myclick">点击我调用show方法</p>
+            </div>
+        </template>
+    </body>
+    <script>
+        // 定义了一个字面量类型的 组件模板对象
+        let com2 = {
+            template:'#tmp2', //通过指定一个 ID,表示加载该元素
+            data(){
+                return {
+                    sonmsg:{name:'小头儿子',age:8}
+                }
+            },
+            methods:{
+                myclick(){
+                    console.log("子组件事件")
+                    // 当点击紫子健的按钮的时候，如何 拿到 父组件传递过来的func方法，并调用该方法
+                    this.$emit("show",'123','456') //emit英文原意：触发，调用，发射
+                }
+            }
+        }
+        // 实例化vue对象
+        let vm = new Vue({
+            // 绑定对象
+            el:'#app',
+            data:{
+                
+            },
+            methods:{
+                show(data,data2){
+                    console.log("该方法是父组件的show方法" + data + '--' + data2)
+                }
+            },
+            components:{
+                com2
+            }
+        })
+    </script>
+</html>
