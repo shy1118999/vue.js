@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title></title>
+        <!-- 引入vue.js -->
+        <script src='https://cdn.jsdelivr.net/npm/vue/dist/vue.js'></script>
+        <!-- 引入路由模块 -->
+        <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+        <style>
+            .router-link-active{
+                color:red;
+                font-size: 50px;
+                font-style: italic;
+                text-decoration: underline;
+                background: green;
+                /* 红配绿 */
+            }
+            /* 动画 */
+            .v-enter,
+            .v-leave-to{
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            .v-enter-active,
+            .v-leave-active{
+                transition: all .5s ease;
+            }
+        </style>
+    </head>
+    <body>
+        <div id='app'>
+            <a href="#/login">login</a> | 
+            <a href="#/register">register</a>
+            <hr>
+            <!-- 使用 router-link 组件来导航. -->
+            <!-- 通过传入 `to` 属性指定链接. -->
+            <!-- <router-link> 默认会被渲染成一个 `<a>` 标签 -->
+            <router-link to="/login" tag="span">login</router-link> | 
+            <router-link to="/register">register</router-link>
+            <!-- 路由出口 -->
+            <!-- 路由匹配到的组件将渲染在这里 -->
+            <transition mode="out-in">
+                <router-view></router-view>
+            </transition>
+            
+        </div>
+    
+    </body>
+    <script>
+        // 创建组件模板对象
+        let login = {
+            template:"<h1>登录组件</h1>"
+        }
+        let register = {
+            template:"<h1>注册组件</h1>"
+        }
+        // 创建路由对象
+        // 当导入vue-route包之后，在window全局对象中，就有了一个路由的构造函数，叫做VueRouter
+        let routerObj = new VueRouter({
+            // 这个配置对象中的route表示【路由匹配规则】
+            // 每个路由规则，都是一个对象，这个对象身上，有两个必须的属性
+            // 属性1：path——表示监听 那个路由链接地址
+            // 属性2:component——表示，如果路由是前面匹配到的path，则展示component属性对应的组件
+            routes:[
+                // {path:'/',component:login},
+                {path:'/',redirect:'/login'},//重定向
+                {path:'/login',component:login},//component必须是一个组件模板对象，不能是一个组件的引用名称
+                {path:'/register',component:register}
+            ],
+            // 更改激活类（根据这个类可以改样式）
+            linkActiveClass:'router-link-active'//默认就是这个哦
+        })
+        // 实例化vue对象
+        let vm = new Vue({
+            // 绑定对象
+            el:'#app',
+            data:{
+                
+            },
+            methods:{
+                
+            },
+            router:routerObj,//将路由规则对象，注册到vm实例上，用来监听URL地址变化，然后展示对应的组件
+        })
+    </script>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title></title>
+        <!-- 引入vue.js -->
+        <script src='https://cdn.jsdelivr.net/npm/vue/dist/vue.js'></script>
+        <!-- 引入路由模块 -->
+        <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    </head>
+    <body>
+        <div id='app'>
+            <router-link to="/login?id=10&name=shaohang">登录</router-link>
+            <router-link to="/register/1/shy">注册</router-link>
+            <router-view></router-view>
+        </div>
+    
+    </body>
+    <script>
+         // 创建组件模板对象
+         let login = {
+            template:"<h1>登录组件---{{$route.query.id}}---{{$route.query.name}}</h1>",
+            // data(){
+            //     return {
+            //         id:''
+            //     }
+            // },
+            // 组件的生命周期函数
+            created(){
+                console.log(this.$route)
+                let id = this.$route.query.id
+                console.log(id)
+                // this.id = id
+            }
+        }
+        let register = {
+            template:"<h1>注册组件--{{$route.params.id}} -- {{$route.params.name}}</h1>",
+            created(){
+                console.log(this.$route.params.id)
+            }
+        }
+        let router = new VueRouter({
+            routes:[
+                {path:'/',redirect:'login'},
+                {path:'/login',component:login},
+                {path:'/register/:id/:name',component:register}
+            ]
+        })
+        // 实例化vue对象
+        let vm = new Vue({
+            // 绑定对象
+            el:'#app',
+            data:{
+                
+            },
+            methods:{
+                
+            },
+            router
+        })
+    </script>
+</html>
