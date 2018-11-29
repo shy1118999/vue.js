@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title></title>
+        <!-- 引入vue.js -->
+        <script src='https://cdn.jsdelivr.net/npm/vue/dist/vue.js'></script>
+    </head>
+    <body>
+        <div id='app'>
+            <!-- 分析
+                1、监听到文本框的改变 
+            -->
+            <h2>第一个</h2>
+            <input type="text" v-model="firstname" @keyup="getFullname"> + 
+            <input type="text" v-model="lastname" @keyup="getFullname"> = 
+            <input type="text" v-model="fullname">
+            <h2>第二个</h2>
+            <input type="text" v-model="firstname2"> + 
+            <input type="text" v-model="lastname2"> = 
+            <input type="text" v-model="fullname2">
+            <h2>第三个</h2>
+            <input type="text" v-model="firstname3"> + 
+            <input type="text" v-model="lastname3"> = 
+            <input type="text" v-model="fullname3">
+        </div>
+    
+    </body>
+    <script>
+        // 实例化vue对象
+        let vm = new Vue({
+            // 绑定对象
+            el:'#app',
+            data:{
+                firstname:'',
+                lastname:'',
+                fullname:'',
+                firstname2:'',
+                lastname2:'',
+                fullname2:'',
+                firstname3:'',
+                lastname3:'',
+                
+            },
+            methods:{
+                getFullname(){
+                    this.fullname = this.firstname + '-' + this.lastname
+                }
+            },
+            // 使用watch可以监视 data 中指定数据的变化，然后触发这个 watch 中对应的function处理函数
+            watch:{
+                'firstname2':function(newVal,oldVal){
+                    console.log("new:"+newVal+"--old:"+oldVal)
+                    this.fullname2 = this.firstname2 + '-' + this.lastname2
+                },
+                'lastname2':function(newVal){
+                    this.fullname2 = this.firstname2 + '-' + newVal
+                }
+            },
+            // 在 computed 中可以定义一些 属性，这些属性，叫做【计算属性】，
+            // 计算属性的本质。就是 一个方法，只不过，我们在使用这些计算属性的时候，
+            // 是把 它们的 名称，直接当做 属性来使用的；并不会把计算属性当做方法来调用
+
+            // 注意：
+            // 计算属性，在引用的时候，一定不要加（）去调用，直接把他当做普通属性去使用就好
+            // 只要计算属性内部所用到的 data 发生变化，就会立即从新计算这个属性的值
+            // 计算属性的求值结果，会被缓存，方便下次直接使用，如果计算属性中方法内部的data数据没有发生变化则不重新计算
+            computed:{
+                'fullname3':function(){
+                    return this.firstname3 + "-" + this.lastname3
+                },
+            }
+        })
+    </script>
+</html>
