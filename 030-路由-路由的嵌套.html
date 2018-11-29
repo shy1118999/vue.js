@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title></title>
+        <!-- 引入vue.js -->
+        <script src='https://cdn.jsdelivr.net/npm/vue/dist/vue.js'></script>
+        <!-- 引入路由模块 -->
+        <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    </head>
+    <body>
+        <div id='app'>
+            <router-link to="/account">Account</router-link>
+            <router-view></router-view>
+        </div>
+        <template id="tmp1">
+            <div>
+                <h1>这是account组件</h1>
+                <router-link to="/account/login">登录</router-link> | 
+                <router-link to="/account/register">注册</router-link>
+                <router-view></router-view>
+            </div>
+        </template>
+    </body>
+    <script>
+        let account = {
+            template:"#tmp1"
+        }
+        let login = {
+            template:"<h1>登录组件</h1>"
+        }
+        let register = {
+            template:"<h1>注册组件</h1>"
+        }
+        let router = new VueRouter({
+            routes:[
+                {path:'/account',component:account,children:[ //children子路由
+                    {path:'login',component:login},//path开头不要加“/”
+                    {path:'register',component:register}
+                ]},
+                // {path:'/account/login',component:login},
+                // {path:'/account/register',component:register}
+            ]
+        })
+        // 实例化vue对象
+        let vm = new Vue({
+            // 绑定对象
+            el:'#app',
+            data:{
+                
+            },
+            methods:{
+                
+            },
+            router
+        })
+    </script>
+</html>
