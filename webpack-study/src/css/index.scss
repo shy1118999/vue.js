@@ -1,0 +1,20 @@
+html,body{
+    padding: 0;
+    margin: 0;
+    li{
+        font-size: 18px;
+        line-height: 28px;
+    }
+    .box{
+        width: 220px;
+        height: 120px;
+        // 默认情况下，webpack 无法处理 css文件中的url地址（图片、字体库）
+        background: url('../images/hang.png');
+    }
+    .box2{
+        width: 220px;
+        height: 120px;
+        // 默认情况下，webpack 无法处理 css文件中的url地址（图片、字体库）
+        background: url('../images2/hang.png');
+    }
+}
