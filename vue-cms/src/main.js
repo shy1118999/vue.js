@@ -10,13 +10,23 @@ import router from './router.js'
 //导入vue-resource
 import VueResource from 'vue-resource'
 Vue.use(VueResource)
+Vue.http.options.root = 'http://vuecms.com/'
+Vue.http.options.emulateJSON = true
+
+// 导入时间插件
+// import moment from 'moment'
+// 定义全局过滤器
+Vue.filter('dataFormat',function(dataStr,pattern = "YYYY-MM-DD HH:mm:ss"){
+    return new Date(parseInt(dataStr) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
+})
 
 // 按需导入mintUI组件
-import {Header} from 'mint-ui'
+import {Header, Swipe, SwipeItem,Button} from 'mint-ui'
 Vue.component(Header.name,Header)
-import { Swipe, SwipeItem } from 'mint-ui';
 Vue.component(Swipe.name, Swipe);
 Vue.component(SwipeItem.name, SwipeItem);
+Vue.component(Button.name, Button);
+
 
 
 // 导入MUI的样式
